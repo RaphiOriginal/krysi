@@ -8,9 +8,9 @@ public class SNP {
 	private Sbox box;
 	private Bitpermutation bit;
 	private int s;
-	private byte[] key;
+	private Key key;
 	
-	public SNP(int r, int n, int m, Sbox box, Bitpermutation bit, int s, byte[] key){
+	public SNP(int r, int n, int m, Sbox box, Bitpermutation bit, int s, Key key){
 		this.r = r;
 		this.n = n;
 		this.m = m;

@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ch.fhnw.raphael.snp.system.Bitpermutation;
+import ch.fhnw.raphael.snp.system.Key;
 import ch.fhnw.raphael.snp.system.SNP;
 import ch.fhnw.raphael.snp.system.Sbox;
 
@@ -43,7 +44,8 @@ public class SNPtest {
 		final Sbox box = new Sbox(boxMap);
 		final int[] bitArray = {0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15};
 		final Bitpermutation bit = new Bitpermutation(bitArray);
-		final byte[] key = {(byte)0b00100010, (byte)0b01010001, (byte)0b00011000, (byte)0b0000000};
+		final byte[] keyArray = {(byte)0b00100010, (byte)0b01010001, (byte)0b00011000, (byte)0b0000000};
+		final Key key = new Key(keyArray);
 		
 		snp = new SNP(r, n, m, box, bit, s, key);
 		
