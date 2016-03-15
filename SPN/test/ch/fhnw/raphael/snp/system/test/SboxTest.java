@@ -2,6 +2,10 @@ package ch.fhnw.raphael.snp.system.test;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,16 +17,26 @@ public class SboxTest {
 	
 	@Before
 	public void setUp(){
-		final byte[] boxArray = {0x2, 0x1, 0x3, 0x0};
-		box = new Sbox(boxArray);
+		Map<Byte, Byte> boxMap = new HashMap<>();
+		boxMap.put((byte)0x0, (byte)0x2);
+		boxMap.put((byte)0x1, (byte)0x1);
+		boxMap.put((byte)0x2, (byte)0x3);
+		boxMap.put((byte)0x3, (byte)0x0);
+		box = new Sbox(boxMap);
 	}
 
 	@Test
 	public void testGetBox() {
-		final int[] referenceArray = {0x2, 0x1, 0x3, 0x0};
-		assertEquals(referenceArray.length, box.getBox().length);
-		for(int i = 0; i < referenceArray.length; i++) {
-			assertEquals(referenceArray[i], box.getBox()[i]);
+		Map<Byte, Byte> referenceMap = new HashMap<>();
+		referenceMap.put((byte)0x0, (byte)0x2);
+		referenceMap.put((byte)0x1, (byte)0x1);
+		referenceMap.put((byte)0x2, (byte)0x3);
+		referenceMap.put((byte)0x3, (byte)0x0);
+		assertEquals(referenceMap.size(), box.getBox().size());
+		Iterator<Byte> refIter = referenceMap.values().iterator();
+		Iterator<Byte> resIter = box.getBox().values().iterator();
+		while(refIter.hasNext() && resIter.hasNext()){
+			assertEquals(refIter.next(), resIter.next());
 		}
 	}
 	
