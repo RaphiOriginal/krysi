@@ -22,5 +22,9 @@ public class Sbox {
 		//TODO implement box using
 		return input;
 	}
+	public byte[] useInvers(byte[] input){
+		//TODO implement box using invers
+		return input;
+	}
 
 }

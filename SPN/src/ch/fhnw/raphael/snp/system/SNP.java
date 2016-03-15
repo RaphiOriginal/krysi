@@ -42,8 +42,19 @@ public class SNP {
 	}
 	
 	public byte[] decode(byte[] chiffre){
-		//TODO decode chiffretext
-		return chiffre;
+		int round = r;
+		
+		//initialer Weissschritt
+		byte[] clear = xor(chiffre, getRoundKey(round--));
+		//reguläre Runden
+		while(round > 0){
+			clear = box.useInvers(clear);
+			clear = bit.use(clear);
+			clear = xor(clear, getRoundKey(round--));
+		}
+		//verkürzte Runde
+		clear = box.useInvers(clear);
+		return xor(clear, getRoundKey(round));
 	}
 	
 	private byte[] xor(byte[] one, byte[] two){
