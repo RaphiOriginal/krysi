@@ -23,5 +23,10 @@ public class Bitpermutation {
 	public int size(){
 		return betha.length;
 	}
+	
+	public byte[] use(byte[] input){
+		//TODO implement the use of Bitpermutation
+		return input;
+	}
 
 }

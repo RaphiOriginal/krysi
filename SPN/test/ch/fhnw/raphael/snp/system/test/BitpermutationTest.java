@@ -36,6 +36,15 @@ public class BitpermutationTest {
 	}
 	
 	@Test
+	public void testUse(){
+		byte[] input = {(byte)0x12, (byte)0x34};
+		byte[] expected = {(byte)0x32, (byte)0x41};
+		for(int i = 0; i < input.length; i++){
+			assertEquals(expected[i], bit.use(input)[i]);
+		}
+	}
+	
+	@Test
 	public void testSize() {
 		final int referenceSize = 4;
 		assertEquals(referenceSize, bit.size());

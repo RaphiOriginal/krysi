@@ -24,6 +24,15 @@ public class SboxTest {
 		boxMap.put((byte)0x3, (byte)0x0);
 		box = new Sbox(boxMap);
 	}
+	
+	@Test
+	public void testUse() {
+		byte[] input = {(byte)0x12};
+		byte[] expected = {(byte)0x13};
+		for(int i=0; i < input.length; i++){
+			assertEquals(expected[i], box.use(input)[i]);
+		}
+	}
 
 	@Test
 	public void testGetBox() {

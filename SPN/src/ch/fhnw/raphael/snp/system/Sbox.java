@@ -17,5 +17,10 @@ public class Sbox {
 	public int size(){
 		return box.size();
 	}
+	
+	public byte[] use(byte[] input){
+		//TODO implement box using
+		return input;
+	}
 
 }
