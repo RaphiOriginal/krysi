@@ -27,10 +27,18 @@ public class SNP {
 	
 	public byte[] encode(byte[] clear){
 		int round = 0;
-		byte[] chiffre = new byte[clear.length];
 		
-		//TODO encode cleartext
-		return clear;
+		//initialer Weissschritt
+		byte[] chiffre = xor(clear, getRoundKey(round++));
+		//reguläre Runden
+		while(round < r){
+			chiffre = box.use(chiffre);
+			chiffre = bit.use(chiffre);
+			chiffre = xor(chiffre, getRoundKey(round++));
+		}
+		//verkürzte Runde
+		chiffre = box.use(chiffre);
+		return xor(chiffre, getRoundKey(round));
 	}
 	
 	public byte[] decode(byte[] chiffre){
@@ -56,8 +64,8 @@ public class SNP {
 			byte b1 = fullKey[i];
 			byte b2 = fullKey[i + 1];
 			b1 = (byte) (b1 << round);
-			b2 = (byte) (b2 >> 8-round);
-			roundKey[i] = (byte)(0xff & b1 | b2);
+			b2 = (byte) (b2 >>> 8-round);
+			roundKey[i] = (byte)(0xff & (b1 | b2));
 		}
 		
 		return roundKey;
