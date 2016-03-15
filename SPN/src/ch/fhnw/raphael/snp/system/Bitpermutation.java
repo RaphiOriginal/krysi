@@ -13,8 +13,11 @@ public class Bitpermutation {
 	}
 	
 	public int[] getInvertedPermutation(){
-		//TODO invert the array
-		return betha;
+		int[] result = new int[size()];
+		for(int i = 0; i < size(); i++){
+			result[betha[i]] = i;
+		}
+		return result;
 	}
 	
 	public int size(){
