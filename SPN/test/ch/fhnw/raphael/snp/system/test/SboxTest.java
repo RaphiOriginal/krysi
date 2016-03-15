@@ -13,25 +13,16 @@ public class SboxTest {
 	
 	@Before
 	public void setUp(){
-		final int[] boxArray = {2, 1, 3, 0};
+		final byte[] boxArray = {0x2, 0x1, 0x3, 0x0};
 		box = new Sbox(boxArray);
 	}
 
 	@Test
 	public void testGetBox() {
-		final int[] referenceArray = {2, 1, 3, 0};
+		final int[] referenceArray = {0x2, 0x1, 0x3, 0x0};
 		assertEquals(referenceArray.length, box.getBox().length);
 		for(int i = 0; i < referenceArray.length; i++) {
 			assertEquals(referenceArray[i], box.getBox()[i]);
-		}
-	}
-	
-	@Test
-	public void testGetInvertedBox() {
-		final int[] referenceArray = {3, 1, 0, 2};
-		assertEquals(referenceArray.length, box.getInvertedBox().length);
-		for(int i = 0; i < referenceArray.length; i++) {
-			assertEquals(referenceArray[i], box.getInvertedBox()[i]);
 		}
 	}
 	

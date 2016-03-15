@@ -2,23 +2,18 @@ package ch.fhnw.raphael.snp.system;
 
 public class Sbox {
 	
-	private int[] box;
+	private byte[] box;
 	
-	public Sbox(int[] box){
+	public Sbox(byte[] box){
 		this.box = box;
 	}
 	
-	public int[] getBox(){
+	public byte[] getBox(){
 		return box;
 	}
 	
 	public int size(){
 		return box.length;
-	}
-	
-	public int[] getInvertedBox(){
-		//TODO generate inverted box
-		return box;
 	}
 
 }
