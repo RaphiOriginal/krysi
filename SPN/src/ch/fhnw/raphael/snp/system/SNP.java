@@ -26,6 +26,9 @@ public class SNP {
 	}
 	
 	public byte[] encode(byte[] clear){
+		int round = 0;
+		byte[] chiffre = new byte[clear.length];
+		
 		//TODO encode cleartext
 		return clear;
 	}
@@ -33,6 +36,31 @@ public class SNP {
 	public byte[] decode(byte[] chiffre){
 		//TODO decode chiffretext
 		return chiffre;
+	}
+	
+	private byte[] xor(byte[] one, byte[] two){
+		byte[] res = new byte[one.length];
+		for(int i = 0; i < one.length; i++){
+			res[i] = (byte) (one[i] ^ two[i]);
+		}
+		return res;
+	}
+	
+	private byte[] getRoundKey(final int round){
+		final int size = (m*n)/8;
+		byte[] roundKey = new byte[size];
+		byte[] fullKey = key.getKey();
+		final int index = round/8;
+		
+		for(int i = index; i < index + size; i++){
+			byte b1 = fullKey[i];
+			byte b2 = fullKey[i + 1];
+			b1 = (byte) (b1 << round);
+			b2 = (byte) (b2 >> 8-round);
+			roundKey[i] = (byte)(0xff & b1 | b2);
+		}
+		
+		return roundKey;
 	}
 
 }
