@@ -38,9 +38,12 @@ public class BitpermutationTest {
 	@Test
 	public void testUse(){
 		byte[] input = {(byte)0x12, (byte)0x34};
-		byte[] expected = {(byte)0x32, (byte)0x41};
+		byte[] expected = {(byte)0x42, (byte)0x13};
+		byte[] result = bit.use(input, 4);
 		for(int i = 0; i < input.length; i++){
-			assertEquals(expected[i], bit.use(input)[i]);
+			System.out.println(expected[i] + " " + expected.length);
+			System.out.println(result[i] + " " + result.length);
+			assertEquals(expected[i], result[i]);
 		}
 	}
 	

@@ -33,7 +33,7 @@ public class SNP {
 		//reguläre Runden
 		while(round < r){
 			chiffre = box.use(chiffre);
-			chiffre = bit.use(chiffre);
+			chiffre = bit.use(chiffre, m);
 			chiffre = xor(chiffre, getRoundKey(round++));
 		}
 		//verkürzte Runde
@@ -49,7 +49,7 @@ public class SNP {
 		//reguläre Runden
 		while(round > 0){
 			clear = box.useInvers(clear);
-			clear = bit.use(clear);
+			clear = bit.use(clear, m);
 			clear = xor(clear, getRoundKey(round--));
 		}
 		//verkürzte Runde
