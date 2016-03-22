@@ -52,7 +52,7 @@ public class KeyTest {
 		key = new Key(8);
 		byte[] keyArray = {(byte)0b00000001};
 		Key additionalKey = new Key(keyArray);
-		key.addKey(additionalKey);
+		key.add();
 		assertTrue(additionalKey.equals(key));
 	}
 

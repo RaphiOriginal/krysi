@@ -24,12 +24,15 @@ public class Key {
 		this.key = key;
 	}
 	
-	public void addKey(Key key){
-		if(key.size() != size()) throw new IllegalArgumentException("Array must have the same size as the key!");
-		byte[] roughKey = key.getKey();
-		for(int i = 0; i < key.size(); i++){
-			this.key[i] += roughKey[i];
-		}
+	public void add(){
+			key[key.length - 1] += 1;
+			byte test = (byte) key[key.length - 1];
+			byte check = 0;
+			int counter = key.length -2;
+			while(test == check && counter >= 0){
+				key[counter--] += 1;
+			}
+			
 	}
 	
 	public int size(){

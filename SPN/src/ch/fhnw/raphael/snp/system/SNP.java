@@ -25,6 +25,15 @@ public class SNP {
 		this.key = key;
 	}
 	
+	public Byte[] getKey(){
+		byte[] k = key.getKey();
+		Byte[] rk = new Byte[k.length];
+		for(int i = 0; i<k.length; i++){
+			rk[i] = k[i];
+		}
+		return rk;
+	}
+	
 	public byte[] encode(byte[] clear){
 		int round = 0;
 		

@@ -13,13 +13,13 @@ public class BitpermutationTest {
 	
 	@Before
 	public void setUp(){
-		final int[] boxArray = {2, 1, 3, 0};
+		final int[] boxArray = {2, 1, 3, 0, 4, 5, 6, 7};
 		bit = new Bitpermutation(boxArray);
 	}
 
 	@Test
 	public void testGetPermutation() {
-		final int[] referenceArray = {2, 1, 3, 0};
+		final int[] referenceArray = {2, 1, 3, 0, 4, 5, 6, 7};
 		assertEquals(referenceArray.length, bit.getPermutation().length);
 		for(int i = 0; i < referenceArray.length; i++) {
 			assertEquals(referenceArray[i], bit.getPermutation()[i]);
@@ -28,7 +28,7 @@ public class BitpermutationTest {
 	
 	@Test
 	public void testGetInvertedPermutation() {
-		final int[] referenceArray = {3, 1, 0, 2};
+		final int[] referenceArray = {3, 1, 0, 2, 4, 5, 6, 7};
 		assertEquals(referenceArray.length, bit.getInvertedPermutation().length);
 		for(int i = 0; i < referenceArray.length; i++) {
 			assertEquals(referenceArray[i], bit.getInvertedPermutation()[i]);
@@ -37,18 +37,18 @@ public class BitpermutationTest {
 	
 	@Test
 	public void testUse(){
-		byte[] input = {(byte)0x12, (byte)0x34};
-		byte[] expected = {(byte)0x42, (byte)0x13};
+		byte[] input = {(byte)0b0101_0101}; // 85
+		byte[] expected = {(byte)0b1100_0101};// -59
 		byte[] result = bit.use(input, 4);
 		for(int i = 0; i < input.length; i++){
-			System.out.println(expected[i] + " " + expected.length);
+			System.out.println(expected[i] + " " + result[i]);
 			assertEquals(expected[i], result[i]);
 		}
 	}
 	
 	@Test
 	public void testSize() {
-		final int referenceSize = 4;
+		final int referenceSize = 8;
 		assertEquals(referenceSize, bit.size());
 	}
 
