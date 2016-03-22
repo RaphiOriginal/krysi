@@ -1,6 +1,6 @@
 package ch.fhnw.raphael.snp.bruteforce;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import ch.fhnw.raphael.snp.system.SNP;
@@ -10,9 +10,9 @@ public class BruteForceThread extends Thread{
 	private int times;
 	private SNP snp;
 	private Map<Byte[], Byte[]> test;
-	private ArrayList<Byte[]> list;
+	private List<Byte[]> list;
 	
-	public BruteForceThread(SNP snp, int times, Map<Byte[], Byte[]> test, ArrayList<Byte[]> list){
+	public BruteForceThread(SNP snp, int times, Map<Byte[], Byte[]> test, List<Byte[]> list){
 		this.times = times;
 		this.snp = snp;
 		this.test = test;
