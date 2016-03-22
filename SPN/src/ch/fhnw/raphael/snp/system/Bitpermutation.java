@@ -35,11 +35,11 @@ public class Bitpermutation {
 		for(int i = 0; i < betha.length; i++){
 			byte b;
 			if(i%2 == 1){
-				b = (byte) (bm2 & input[i/2]);
-				if(betha[i]%2 == 0) b = (byte) (b >>> 4);
-			} else {
 				b = (byte) (bm1 & input[i/2]);
-				if(betha[i]%2 == 1) b = (byte) (b << 4);
+				if(betha[i]%2 == 0) b = (byte) (b << 4);
+			} else {
+				b = (byte) (bm2 & input[i/2]);
+				if(betha[i]%2 == 1) b = (byte) (b >>> 4);
 			}
 			
 			output[betha[i]/2] = (byte) (output[betha[i]/2] | b);

@@ -42,7 +42,6 @@ public class BitpermutationTest {
 		byte[] result = bit.use(input, 4);
 		for(int i = 0; i < input.length; i++){
 			System.out.println(expected[i] + " " + expected.length);
-			System.out.println(result[i] + " " + result.length);
 			assertEquals(expected[i], result[i]);
 		}
 	}
