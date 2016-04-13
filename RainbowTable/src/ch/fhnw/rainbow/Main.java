@@ -69,10 +69,10 @@ public class Main {
 	}
 	
 	public String hashreduct(String value, int step){
+		if(step < 4) System.out.println(value);
 		String hashtext = hash(value);
 		if(step < 4) System.out.println(hashtext);
 		String res = red.reduction(Long.parseLong(hashtext,16), step);
-		if(step < 4) System.out.println(res);
 		return res;
 	}
 	
