@@ -15,7 +15,7 @@ public class Reduktionfunction {
 		String res = "";
 		BigInteger h = hash;
 		BigInteger bigStep = new BigInteger(""+step);
-		h.add(bigStep);
+		h = h.add(bigStep);
 		for(int i = 0; i < l; i++){
 			BigInteger r = h.mod(new BigInteger(""+z.length));
 			h = h.divide(new BigInteger(""+z.length));
