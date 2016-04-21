@@ -1,5 +1,6 @@
 package ch.fhnw.rainbow;
 
+import java.math.BigInteger;
 import java.security.*;
 
 public class Main {
@@ -9,6 +10,8 @@ public class Main {
 			'w', 'x', 'y','z'};
 	private RainbowTable table;
 	private Reduktionfunction red;
+	
+	private boolean debug = true;
 	
 	public Main(){
 		table = new RainbowTable();
@@ -26,7 +29,7 @@ public class Main {
 		String h = hash(pw);
 		int counter = 0;
 		while(hash != h){
-			pw = red.reduction(Long.parseLong(h,16), counter++);
+			pw = red.reduction(new BigInteger(h,16), counter++);
 			h = hash(pw);
 		}
 		return pw;
@@ -37,7 +40,7 @@ public class Main {
 		String pw = "";
 		for(int i = 2000 -1; i > 0 - 1; i--){
 			for(int j = i; j < 2000; j++){
-				pw = red.reduction(Integer.parseInt(h,16), i);
+				pw = red.reduction(new BigInteger(h, 16), i);
 				h = hash(pw);
 			}
 			if(table.getStart(pw) != null) return table.getStart(pw);
@@ -50,7 +53,7 @@ public class Main {
 		String end = "";
 		for(int i = 0; i < 2000; i++){
 			int c = i;
-			value += z[c % 36];
+			value += z[c % 35];
 			while(c/36 > 1){
 				if(value.length() < 7){
 					value = z[c % 36] + value;
@@ -69,10 +72,11 @@ public class Main {
 	}
 	
 	public String hashreduct(String value, int step){
-		if(step < 4) System.out.println(value);
+		if(debug && step == 4) debug = false;
+		if(debug && step < 4) System.out.println(value);
 		String hashtext = hash(value);
-		if(step < 4) System.out.println(hashtext);
-		String res = red.reduction(Long.parseLong(hashtext,16), step);
+		if(debug && step < 4) System.out.println(hashtext);
+		String res = red.reduction(new BigInteger(hashtext, 16), step);
 		return res;
 	}
 	
