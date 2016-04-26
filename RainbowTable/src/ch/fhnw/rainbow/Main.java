@@ -47,10 +47,8 @@ public class Main {
 	
 	public String findStartWord(String hash) throws Exception {
 		BigInteger h = new BigInteger(hash, 16);
-		String pw = red.reduction(h, ROUNDS);
-		if(table.containsKey(pw)){
-			return table.getStart(pw);
-		}
+		String pw = "";
+		//reverse reducing through the rainbow table (last, if no match, second last...)
 		for(int i = ROUNDS; i >=	 0; i--){
 			h = new BigInteger(hash, 16);
 			for(int j = i; j <= ROUNDS; j++){
@@ -66,9 +64,11 @@ public class Main {
 	}
 	
 	private void fill(){
+		//Fill table with start and end values after 2000 rounds
 		String value = "";
 		String end = "";
 		for(int i = 0; i < ROUNDS; i++){
+			//build the string
 			value = "";
 			int c = i;
 			value += z[c % z.length];
@@ -79,10 +79,12 @@ public class Main {
 				}
 				c = c/z.length;
 			}
+			//fill with leading zeros
 			while(value.length() < 7){
 				value = '0' + value;
 			}
 			end = value;
+			//iterate 2000 times to get end value
 			for(int j = 0; j <= ROUNDS; j++){
 				end = hashreduct(end, j);
 			}
@@ -94,12 +96,15 @@ public class Main {
 	public String hashreduct(String value, int step){
 		if(debug && step == 4) debug = false;
 		if(debug) System.out.println(value);
+		//hash value
 		BigInteger hashtext = hash(value);
+		//reuct value
 		String res = red.reduction(hashtext, step);
 		return res;
 	}
 	
 	public BigInteger hash(String value){
+		//hash with MD5
 		MessageDigest ms;
 		try {
 			ms = MessageDigest.getInstance("MD5");
