@@ -18,5 +18,13 @@ public class RainbowTable {
 	public String getStart(String key){
 		return table.get(key);
 	}
+	
+	public boolean containsKey(String key){
+		return table.containsKey(key);
+	}
+	
+	public String toString(){
+		return table.toString();
+	}
 
 }

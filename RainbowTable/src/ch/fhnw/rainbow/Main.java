@@ -10,6 +10,7 @@ public class Main {
 			'w', 'x', 'y','z'};
 	private RainbowTable table;
 	private Reduktionfunction red;
+	private final int ROUNDS = 2000;
 	
 	private boolean debug = true;
 	
@@ -22,59 +23,72 @@ public class Main {
 	public static void main(String[] args){
 		Main m = new Main();
 		try {
-			System.out.println(m.attack(new BigInteger("1d56a37fb6b08aa709fe90e12ca59e12", 16)));
+			System.out.println(m.attack("1d56a37fb6b08aa709fe90e12ca59e12"));
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
 	}
 	
-	public String attack(BigInteger hash) throws Exception{
+	public String attack(String hash) throws Exception{
+		BigInteger reference = new BigInteger(hash, 16);
+		//find a matching start value
 		String pw = findStartWord(hash);
+		//hash the start value
 		BigInteger h = hash(pw);
 		int counter = 0;
-		while(hash != h){
+		//search for value until you found one where hash is equal
+		while(!reference.equals(h)){
 			pw = red.reduction(h, counter++);
 			h = hash(pw);
 		}
 		return pw;
 	}
 	
-	public String findStartWord(BigInteger hash) throws Exception {
-		BigInteger h = hash;
-		String pw = "";
-		for(int i = 2000 -1; i > 0 - 1; i--){
-			for(int j = i; j < 2000; j++){
-				pw = red.reduction(h, i);
+	public String findStartWord(String hash) throws Exception {
+		BigInteger h = new BigInteger(hash, 16);
+		String pw = red.reduction(h, ROUNDS);
+		if(table.containsKey(pw)){
+			return table.getStart(pw);
+		}
+		for(int i = ROUNDS; i >=	 0; i--){
+			h = new BigInteger(hash, 16);
+			for(int j = i; j <= ROUNDS; j++){
+				pw = red.reduction(h, j);
 				h = hash(pw);
 			}
-			if(table.getStart(pw) != null) {
+			if(table.containsKey(pw)){
 				return table.getStart(pw);
 			}
 		}
+		System.out.println(table.toString());
 		throw new Exception("No Start value found!");
 	}
 	
 	private void fill(){
 		String value = "";
 		String end = "";
-		for(int i = 0; i < 2000; i++){
+		for(int i = 0; i < ROUNDS; i++){
+			value = "";
 			int c = i;
 			value += z[c % z.length];
-			while(c/36 > 1){
+			c = c/z.length;
+			while(c > 1){
 				if(value.length() < 7){
 					value = z[c % z.length] + value;
 				}
-				c /= 36;
+				c = c/z.length;
 			}
 			while(value.length() < 7){
 				value = '0' + value;
 			}
 			end = value;
-			for(int j = 0; j < 2000; j++){
+			for(int j = 0; j <= ROUNDS; j++){
 				end = hashreduct(end, j);
 			}
 			table.addPair(end, value);
 		}
+		System.out.println("Rainbow table is Ready!");
 	}
 	
 	public String hashreduct(String value, int step){
