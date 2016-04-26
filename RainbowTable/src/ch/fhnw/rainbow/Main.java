@@ -6,7 +6,7 @@ import java.security.*;
 public class Main {
 	//mögliche Zeichen der Passwörter
 	private char[] z = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
-			'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+			'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
 			'w', 'x', 'y','z'};
 	private RainbowTable table;
 	private Reduktionfunction red;
@@ -21,31 +21,37 @@ public class Main {
 	
 	public static void main(String[] args){
 		Main m = new Main();
-		System.out.println(m.attack("1d56a37fb6b08aa709fe90e12ca59e12"));
+		try {
+			System.out.println(m.attack(new BigInteger("1d56a37fb6b08aa709fe90e12ca59e12", 16)));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
-	public String attack(String hash){
+	public String attack(BigInteger hash) throws Exception{
 		String pw = findStartWord(hash);
-		String h = hash(pw);
+		BigInteger h = hash(pw);
 		int counter = 0;
 		while(hash != h){
-			pw = red.reduction(new BigInteger(h,16), counter++);
+			pw = red.reduction(h, counter++);
 			h = hash(pw);
 		}
 		return pw;
 	}
 	
-	public String findStartWord(String hash){
-		String h = hash;
+	public String findStartWord(BigInteger hash) throws Exception {
+		BigInteger h = hash;
 		String pw = "";
 		for(int i = 2000 -1; i > 0 - 1; i--){
 			for(int j = i; j < 2000; j++){
-				pw = red.reduction(new BigInteger(h, 16), i);
+				pw = red.reduction(h, i);
 				h = hash(pw);
 			}
-			if(table.getStart(pw) != null) return table.getStart(pw);
+			if(table.getStart(pw) != null) {
+				return table.getStart(pw);
+			}
 		}
-		return null;
+		throw new Exception("No Start value found!");
 	}
 	
 	private void fill(){
@@ -53,10 +59,10 @@ public class Main {
 		String end = "";
 		for(int i = 0; i < 2000; i++){
 			int c = i;
-			value += z[c % 35];
+			value += z[c % z.length];
 			while(c/36 > 1){
 				if(value.length() < 7){
-					value = z[c % 36] + value;
+					value = z[c % z.length] + value;
 				}
 				c /= 36;
 			}
@@ -73,37 +79,23 @@ public class Main {
 	
 	public String hashreduct(String value, int step){
 		if(debug && step == 4) debug = false;
-		if(debug && step < 4) System.out.println(value);
-		String hashtext = hash(value);
-		if(debug && step < 4) System.out.println(hashtext);
-		String res = red.reduction(new BigInteger(hashtext, 16), step);
+		if(debug) System.out.println(value);
+		BigInteger hashtext = hash(value);
+		String res = red.reduction(hashtext, step);
 		return res;
 	}
 	
-	public String hash(String value){
+	public BigInteger hash(String value){
 		MessageDigest ms;
 		try {
 			ms = MessageDigest.getInstance("MD5");
 			ms.reset();
 			ms.update(value.getBytes());
-			return hexToString(ms.digest());
+			return new BigInteger(1, ms.digest());
 		} catch (NoSuchAlgorithmException e) {
+			System.out.println("Oh, oooooooh!");
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
-	//found on: http://stackoverflow.com/questions/5886619/hexadecimal-to-integer-in-java
-	private String hexToString(byte[] output) {
-	    char hexDigit[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-	            'a', 'b', 'c', 'd', 'e', 'f' };
-	    StringBuffer buf = new StringBuffer();
-	    for (int j = 0; j < output.length; j++) {
-	        buf.append(hexDigit[(output[j] >> 4) & 0x0f]);
-	        buf.append(hexDigit[output[j] & 0x0f]);
-	    }
-	    return buf.toString();
-
-	}
-
 }

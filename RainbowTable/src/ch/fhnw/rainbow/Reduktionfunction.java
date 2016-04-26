@@ -14,11 +14,11 @@ public class Reduktionfunction {
 	public String reduction(BigInteger hash, int step){
 		String res = "";
 		BigInteger h = hash;
-		BigInteger bigStep = new BigInteger(""+step);
+		BigInteger bigStep = new BigInteger(String.valueOf(step));
 		h = h.add(bigStep);
 		for(int i = 0; i < l; i++){
-			BigInteger r = h.mod(new BigInteger(""+z.length));
-			h = h.divide(new BigInteger(""+z.length));
+			BigInteger r = h.mod(new BigInteger(String.valueOf(z.length)));
+			h = h.divide(new BigInteger(String.valueOf(z.length)));
 			res = z[r.intValue()] + res;
 		}
 		return res;
